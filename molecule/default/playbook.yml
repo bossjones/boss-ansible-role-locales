@@ -3,12 +3,15 @@
   hosts: all
   become: yes
   become_method: sudo
-  environment:
-    SHELL: /bin/bash
+  # environment:
+  #   SHELL: /bin/bash
+  environment: '{{ inventory__environment | d({})
+                   | combine(inventory__group_environment | d({}))
+                   | combine(inventory__host_environment  | d({})) }}'
   roles:
-    - role: boss-ansible-role-core
-    - role: boss-ansible-role-fact
-    - role: boss-ansible-role-environment
+    # - role: boss-ansible-role-core
+    # - role: boss-ansible-role-fact
+    # - role: boss-ansible-role-environment
 
     - role: boss-ansible-role-locales
       bossjones__user: root
